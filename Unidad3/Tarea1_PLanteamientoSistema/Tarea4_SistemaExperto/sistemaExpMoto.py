@@ -1,0 +1,165 @@
+
+# Diccionario de variables y sus posibles valores (para ayuda en interfaz)
+opciones = {
+    "LL": ["Si", "No"],
+    "SS": ["Si", "No", "clic"],
+    "MA": ["Si", "No", "Forzado"],
+    "MG": ["Si", "No"],
+    "OLG": ["Si", "No"],
+    "CH": ["Si", "No"],
+    "PC": ["Si", "No"],
+    "PJ": ["Si", "No"],
+    "RI": ["Si", "No"],
+    "TV": ["Si", "No"],
+    "HB": ["Si", "No"],
+    "TP": ["Funciona", "Falla"],
+    "FR": ["Si", "No"],
+    "EG": ["Funciona", "Falla"],
+    "CP": ["Alta", "Baja"],
+    "DE": ["Si", "No"],
+    "TA": ["Normal", "Alta"],
+    "VO": ["Adecuado", "Bajo"],
+    "VF": ["Funciona", "Falla"],
+    "AT": ["Limpias", "Atascadas"],
+    "FL": ["Si", "No"],
+    "VB": ["Si", "No"],
+    "AL": ["Si", "No"],
+    "ST": ["Funciona", "Falla"],
+    "PT": ["Inactiva", "Activa"],
+    "LU": ["Normales", "Debiles"],
+    "BO": ["Funciona", "Falla"],
+    "IN": ["Funciona", "Falla"],
+    "LF": ["Funciona", "Falla"],
+    "BC": ["Si", "No"],
+    "AA": ["Funciona", "Falla"],
+    "TD": ["Estable", "Reinicia"],
+    "FU": ["Funcionales", "Quemados"],
+    "FD": ["Normal", "Esponjoso"],
+    "FC": ["Si", "No"],
+    "FT": ["Normal", "Duro"],
+    "LFU": ["Si", "No"],
+    "BF": ["Correcto", "Incorrecto"],
+    "FS": ["Si", "No"],
+    "BD": ["Usadas", "Nuevas"],
+    "DF": ["Buenos", "Dañados"],
+    "GC": ["Si", "No"],
+    "EP": ["Buenos", "Desgastados"],
+    "CV": ["Tensión correcta", "Incorrecta"],
+    "ALC": ["Buena", "Mala"],
+    "RU": ["Si", "No"],
+    "PL": ["Firme", "Floja"]
+}
+
+# Descripciones legibles para los códigos de síntomas
+descripciones = {
+    "LL": "¿Luces encienden?",
+    "SS": "¿Suena el motor de arranque?",
+    "MA": "¿Motor de arranque gira?",
+    "MG": "¿Motor gira pero no enciende?",
+    "OLG": "¿Olor a gasolina?",
+    "CH": "¿Chispa en la bujía?",
+    "PC": "¿Bomba de gasolina activa?",
+    "PJ": "¿Presión de gasolina correcta?",
+    "RI": "¿Sistema de inyección funcional?",
+    "TV": "¿Vibración en alta velocidad?",
+    "HB": "¿Humo blanco?",
+    "TP": "¿TPS funciona correctamente?",
+    "FR": "¿Ralentí inestable?",
+    "EG": "¿Embrague falla?",
+    "CP": "¿Compresión baja?",
+    "DE": "¿Escape con fugas?",
+    "TA": "¿Temperatura del aceite?",
+    "VO": "¿Nivel de aceite correcto?",
+    "VF": "¿Ventilador funciona?",
+    "AT": "¿Aletas del radiador obstruidas?",
+    "FL": "¿Fugas de líquido?",
+    "VB": "¿Vapor en burbuja en aceite?",
+    "AL": "¿Aceite mezclado con refrigerante?",
+    "ST": "¿Sensor de temperatura funcional?",
+    "PT": "¿Protección térmica activa?",
+    "LU": "¿Luces débiles?",
+    "BO": "¿Botón de encendido falla?",
+    "IN": "¿Interruptor de encendido funcional?",
+    "LF": "¿Luces de freno funcionan?",
+    "BC": "¿Batería cargando?",
+    "AA": "¿Alternador adecuado?",
+    "TD": "¿Tablero reinicia?",
+    "FU": "¿Fusibles en buen estado?",
+    "FD": "¿Freno delantero esponjoso?",
+    "FC": "¿Frenos chillan?",
+    "FT": "¿Freno trasero duro?",
+    "LFU": "¿Fugas en freno hidráulico?",
+    "BF": "¿Frenos desbalanceados?",
+    "FS": "¿Sistema de frenos caliente?",
+    "BD": "¿Balatas desgastadas?",
+    "DF": "¿Discos de freno dañados?",
+    "GC": "¿Cadena floja?",
+    "EP": "¿Engranes desgastados?",
+    "CV": "¿Cadena con tensión incorrecta?",
+    "ALC": "¿Kit de arrastre mal alineado?",
+    "RU": "¿Ruidos en rueda?",
+    "PL": "¿Palanca de cambios floja?"
+}
+reglas = [
+    ((lambda f: f["LL"] == "No" and f["SS"] == "No"), "Batería descargada o Fusible quemado"),
+    ((lambda f: f["MA"] == "Si" and f["CH"] == "No" and f["OLG"] == "Si"), "Bujía mojada o defectuosa"),
+    ((lambda f: f["SS"] == "clic"), "Fallo en el relé de arranque"),
+    ((lambda f: f["MG"] == "Si" and f["CH"] == "No"), "Problema en CDI o bobina de encendido"),
+    ((lambda f: f["PC"] == "No"), "Falla en la bomba de gasolina"),
+    ((lambda f: f["PJ"] == "Si" and f.get("AC", "") == "Lenta"), "Obstrucción en el filtro de aire"),
+    ((lambda f: f["RI"] == "No"), "Problema en el sistema de inyección"),
+    ((lambda f: f["TV"] == "Si"), "Desbalanceo en las ruedas"),
+    ((lambda f: f["HB"] == "Si"), "Mezcla rica de combustible"),
+    ((lambda f: f["TP"] == "Falla"), "Fallo en sensor TPS"),
+    ((lambda f: f["FR"] == "Si"), "Mala regulación de ralentí"),
+    ((lambda f: f["EG"] == "Falla"), "Problema en el embrague"),
+    ((lambda f: f["CP"] == "Baja"), "Baja compresión del motor"),
+    ((lambda f: f["DE"] == "Si"), "Fuga en el sistema de escape"),
+    ((lambda f: f["TA"] == "Alta" and f["VO"] == "Bajo"), "Bajo nivel de aceite"),
+    ((lambda f: f["VF"] == "Falla"), "Daño en termostato o sensor de temperatura"),
+    ((lambda f: f["AT"] == "Atascadas"), "Atasco en las aletas del radiador"),
+    ((lambda f: f["FL"] == "Si"), "Rotura de manguera o radiador"),
+    ((lambda f: f["VB"] == "Si"), "Daño en la junta de culata"),
+    ((lambda f: f["AL"] == "Si"), "Aceite mezclado con refrigerante"),
+    ((lambda f: f["ST"] == "Falla"), "Sensor de temperatura dañado"),
+    ((lambda f: f["PT"] == "Activa"), "Protección térmica activada"),
+    ((lambda f: f["LU"] == "Debiles"), "Regulador/rectificador dañado"),
+    ((lambda f: f["BO"] == "Falla"), "Fusible quemado o interruptor dañado"),
+    ((lambda f: f["IN"] == "Falla"), "Cableado roto"),
+    ((lambda f: f["LF"] == "Falla"), "Interruptor de freno dañado"),
+    ((lambda f: f["BC"] == "No"), "Fuga de corriente o alternador fallando"),
+    ((lambda f: f["TD"] == "Reinicia"), "Conexión suelta o interferencia eléctrica"),
+    ((lambda f: f["FU"] == "Quemados"), "Cortocircuito en sistema eléctrico"),
+    ((lambda f: f["FD"] == "Esponjoso"), "Aire en el sistema hidráulico"),
+    ((lambda f: f["FC"] == "Si"), "Desgaste de balatas o contaminación"),
+    ((lambda f: f["FT"] == "Duro"), "Desajuste en pedal de freno"),
+    ((lambda f: f["LFU"] == "Si"), "Daño en cilindros o mangueras"),
+    ((lambda f: f["BF"] == "Incorrecto"), "Frenos desbalanceados"),
+    ((lambda f: f["FS"] == "Si"), "Sobrecalentamiento del sistema de frenos"),
+    ((lambda f: f["BD"] == "Nuevas" and f["DF"] == "Dañados"), "Problema en los discos de freno"),
+    ((lambda f: f["GC"] == "Si"), "Tensión incorrecta en la cadena"),
+    ((lambda f: f["EP"] == "Desgastados"), "Desgaste en engranes internos"),
+    ((lambda f: f["CV"] == "Incorrecta"), "Tensión incorrecta de cadena"),
+    ((lambda f: f["ALC"] == "Mala"), "Kit de arrastre mal alineado"),
+    ((lambda f: f["RU"] == "Si"), "Rodamiento de rueda dañado"),
+    ((lambda f: f["PL"] == "Floja"), "Varilla o pernos de transmisión dañados")
+]
+# Entrada de hechos del usuario
+hechos = {}
+print("\nIntroduce los síntomas observados en la motocicleta:")
+for var, valores in opciones.items():
+    descripcion = descripciones.get(var, var)
+    entrada = input(f"{descripcion} ({'/'.join(valores)}): ").strip()
+    while entrada not in valores:
+        entrada = input(f"Valor no válido. {descripcion} ({'/'.join(valores)}): ").strip()
+    hechos[var] = entrada
+# Reglas (motor de inferencia)
+
+
+print("\nDiagnóstico del sistema experto:\n")
+respuestas = [conclusion for cond, conclusion in reglas if cond(hechos)]
+if respuestas:
+    for r in respuestas:
+        print("-", r)
+else:
+    print("No se detectaron fallas con los síntomas ingresados.")
